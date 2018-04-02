@@ -13,11 +13,6 @@ import java.io.Serializable;
 public class ToolkitRepositoryFactoryBean<T extends JpaRepository<S, ID> , S, ID extends Serializable> extends JpaRepositoryFactoryBean<T, S, ID> {
 
 
-    /**
-     * Creates a new {@link JpaRepositoryFactoryBean} for the given repository interface.
-     *
-     * @param repositoryInterface must not be {@literal null}.
-     */
     public ToolkitRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
         super(repositoryInterface);
     }

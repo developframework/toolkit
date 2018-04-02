@@ -1,12 +1,11 @@
 package com.github.developframework.toolkit.persistence.component;
 
+import com.github.developframework.toolkit.base.Sugar;
 import com.github.developframework.toolkit.persistence.exception.RangeException;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.text.ParseException;
 import java.util.Date;
-
-import static com.github.developframework.toolkit.base.Sugar.useElseDefault;
 
 /**
  * 时间日期范围

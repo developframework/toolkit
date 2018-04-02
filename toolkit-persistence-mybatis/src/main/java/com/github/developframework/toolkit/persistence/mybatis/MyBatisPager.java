@@ -1,11 +1,11 @@
 package com.github.developframework.toolkit.persistence.mybatis;
 
-import com.github.developframework.toolkit.base.component.Pager;
+import com.github.developframework.toolkit.persistence.component.Pager;
 
 /**
  * Mybatis分页请求参数信息
  */
-public class MyBatisPager extends Pager{
+public class MyBatisPager extends Pager {
 
     public MyBatisPager() {
         super();

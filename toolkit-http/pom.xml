@@ -13,8 +13,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>com.github.developframework</groupId>
+            <artifactId>toolkit-base</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>

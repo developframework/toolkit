@@ -1,6 +1,6 @@
 package com.github.developframework.toolkit.persistence.jpa;
 
-import com.github.developframework.toolkit.base.component.Pager;
+import com.github.developframework.toolkit.persistence.component.Pager;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -8,7 +8,7 @@ import org.springframework.data.domain.Sort;
 /**
  * JPA分页请求参数信息
  */
-public class JPAPager extends Pager{
+public class JPAPager extends Pager {
 
     public JPAPager() {
         super();

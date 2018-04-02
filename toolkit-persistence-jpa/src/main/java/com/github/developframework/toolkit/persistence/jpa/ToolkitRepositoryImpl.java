@@ -1,6 +1,6 @@
 package com.github.developframework.toolkit.persistence.jpa;
 
-import com.github.developframework.toolkit.base.component.Range;
+import com.github.developframework.toolkit.persistence.component.Range;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

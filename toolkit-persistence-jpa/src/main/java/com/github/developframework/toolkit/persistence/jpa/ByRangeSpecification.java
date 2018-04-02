@@ -1,6 +1,6 @@
 package com.github.developframework.toolkit.persistence.jpa;
 
-import com.github.developframework.toolkit.base.component.Range;
+import com.github.developframework.toolkit.persistence.component.Range;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
