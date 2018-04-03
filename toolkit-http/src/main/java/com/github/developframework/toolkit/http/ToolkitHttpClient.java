@@ -12,7 +12,6 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Set;
 
