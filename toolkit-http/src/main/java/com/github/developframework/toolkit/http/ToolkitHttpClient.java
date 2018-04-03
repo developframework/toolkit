@@ -73,13 +73,7 @@ public final class ToolkitHttpClient {
      */
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> get(HttpRequest request, Class<T> responseBodyClass) throws IOException {
         URL url = new URL(request.getUrlFull());
-        HttpURLConnection connection;
-        if(Toolkit.exist(option.getProxy())) {
-            connection = (HttpURLConnection) url.openConnection(option.getProxy());
-        } else {
-            connection = (HttpURLConnection) url.openConnection();
-        }
-        connectionSettings(connection, HttpMethod.GET, request, option);
+        HttpURLConnection connection = connectionSettings(url, HttpMethod.GET, request, option);
         connection.setDoOutput(false);
         connection.setDoInput(true);
 
@@ -110,13 +104,7 @@ public final class ToolkitHttpClient {
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> post(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
         URL url = new URL(request.getUrlFull());
-        HttpURLConnection connection;
-        if(Toolkit.exist(option.getProxy())) {
-            connection = (HttpURLConnection) url.openConnection(option.getProxy());
-        } else {
-            connection = (HttpURLConnection) url.openConnection();
-        }
-        connectionSettings(connection, HttpMethod.POST, request, option);
+        HttpURLConnection connection = connectionSettings(url, HttpMethod.POST, request, option);
         connection.setDoOutput(true);
         connection.setDoInput(true);
 
@@ -154,13 +142,7 @@ public final class ToolkitHttpClient {
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> put(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
         URL url = new URL(request.getUrlFull());
-        HttpURLConnection connection;
-        if(Toolkit.exist(option.getProxy())) {
-            connection = (HttpURLConnection) url.openConnection(option.getProxy());
-        } else {
-            connection = (HttpURLConnection) url.openConnection();
-        }
-        connectionSettings(connection, HttpMethod.PUT, request, option);
+        HttpURLConnection connection = connectionSettings(url, HttpMethod.PUT, request, option);
         connection.setDoOutput(true);
         connection.setDoInput(true);
 
@@ -198,13 +180,7 @@ public final class ToolkitHttpClient {
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> delete(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
         URL url = new URL(request.getUrlFull());
-        HttpURLConnection connection;
-        if(Toolkit.exist(option.getProxy())) {
-            connection = (HttpURLConnection) url.openConnection(option.getProxy());
-        } else {
-            connection = (HttpURLConnection) url.openConnection();
-        }
-        connectionSettings(connection, HttpMethod.DELETE, request, option);
+        HttpURLConnection connection = connectionSettings(url, HttpMethod.DELETE, request, option);
         connection.setDoOutput(true);
         connection.setDoInput(true);
 
@@ -242,12 +218,19 @@ public final class ToolkitHttpClient {
         }
     }
 
-    private void connectionSettings(HttpURLConnection connection, HttpMethod method, HttpRequest request, Option option) throws ProtocolException {
+    private HttpURLConnection connectionSettings(URL url, HttpMethod method, HttpRequest request, Option option) throws IOException {
+        HttpURLConnection connection;
+        if(Toolkit.exist(option.getProxy())) {
+            connection = (HttpURLConnection) url.openConnection(option.getProxy());
+        } else {
+            connection = (HttpURLConnection) url.openConnection();
+        }
         connection.setRequestMethod(method.name());
         connection.setRequestProperty("charset", request.getCharset().displayName());
         connection.setReadTimeout(option.getConnectTimeout());
         connection.setConnectTimeout(option.getReadTimeout());
         connection.setUseCaches(false);
+        return connection;
     }
 
     private <T extends HttpResponseBodyProcessor> HttpResponse<T> generateHttpResponse(HttpURLConnection connection, Class<T> responseBodyProcessorClass) throws Exception {
