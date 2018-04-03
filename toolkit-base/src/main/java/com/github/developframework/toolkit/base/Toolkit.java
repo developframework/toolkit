@@ -5,13 +5,13 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
- * 语法糖
+ * 工具箱
  * @author qiuzhenhao
  */
-public final class Sugar {
+public final class Toolkit {
 
-    private Sugar() {
-        throw new AssertionError("No com.github.developframework.toolkit.base.Sugar instances for you!");
+    private Toolkit() {
+        throw new AssertionError("No com.github.developframework.toolkit.base.Toolkit instances for you!");
     }
 
     /**
@@ -24,12 +24,25 @@ public final class Sugar {
         return value != null;
     }
 
+    /**
+     * 断言存在，不存在将会抛出异常e
+     * @param value
+     * @param e
+     * @param <T>
+     */
     public static <T> void assistExist(T value, RuntimeException e) {
         if(value == null) {
             throw e;
         }
     }
 
+    /**
+     * 使用value，不存在将会抛出异常e
+     * @param value
+     * @param e
+     * @param <T>
+     * @return
+     */
     public static <T> T use(T value, RuntimeException e) {
         if(exist(value)) {
             return value;
@@ -38,6 +51,13 @@ public final class Sugar {
         }
     }
 
+    /**
+     * 使用value，用于无返回值的consumer，不存在将会抛出异常e
+     * @param value
+     * @param e
+     * @param consumer
+     * @param <T>
+     */
     public static <T> void use(T value, RuntimeException e, Consumer<T> consumer) {
         if(exist(value)) {
             consumer.accept(value);
@@ -46,6 +66,15 @@ public final class Sugar {
         }
     }
 
+    /**
+     * 使用value，用于有返回值的function，不存在将会抛出异常e
+     * @param value
+     * @param e
+     * @param function
+     * @param <T>
+     * @param <R>
+     * @return
+     */
     public static <T, R> R use(T value, RuntimeException e, Function<T, R> function) {
         if(exist(value)) {
             return function.apply(value);
@@ -54,6 +83,13 @@ public final class Sugar {
         }
     }
 
+    /**
+     * 使用value，不存在将会使用defaultValue
+     * @param value
+     * @param defaultValue
+     * @param <T>
+     * @return
+     */
     public static <T> T useElseDefault(T value, T defaultValue) {
         if(exist(value)) {
             return value;
@@ -62,6 +98,13 @@ public final class Sugar {
         }
     }
 
+    /**
+     * 使用value，不存在将会使用defaultValue，用于无返回值的consumer
+     * @param value
+     * @param defaultValue
+     * @param consumer
+     * @param <T>
+     */
     public static <T> void useElseDefault(T value, T defaultValue, Consumer<T> consumer) {
         if(exist(value)) {
             consumer.accept(value);
@@ -70,6 +113,15 @@ public final class Sugar {
         }
     }
 
+    /**
+     * 使用value，不存在将会使用defaultValue，用于有返回值的function
+     * @param value
+     * @param defaultValue
+     * @param function
+     * @param <T>
+     * @param <R>
+     * @return
+     */
     public static <T, R> R useElseDefault(T value, T defaultValue, Function<T, R> function) {
         if(exist(value)) {
             return function.apply(value);
@@ -78,6 +130,13 @@ public final class Sugar {
         }
     }
 
+    /**
+     * 使用value，不存在将会使用supplier提供值
+     * @param value
+     * @param supplier
+     * @param <T>
+     * @return
+     */
     public static <T> T useElseSupplier(T value, Supplier<T> supplier) {
         if(exist(value)) {
             return value;
@@ -86,6 +145,13 @@ public final class Sugar {
         }
     }
 
+    /**
+     * 使用value，不存在将会使用supplier提供值，用于无返回值的consumer
+     * @param value
+     * @param supplier
+     * @param consumer
+     * @param <T>
+     */
     public static <T> void useElseSupplier(T value, Supplier<T> supplier, Consumer<T> consumer) {
         if(exist(value)) {
             consumer.accept(value);
@@ -94,6 +160,15 @@ public final class Sugar {
         }
     }
 
+    /**
+     * 使用value，不存在将会使用supplier提供值，用于有返回值的function
+     * @param value
+     * @param supplier
+     * @param function
+     * @param <T>
+     * @param <R>
+     * @return
+     */
     public static <T, R> R useElseSupplier(T value, Supplier<T> supplier, Function<T, R> function) {
         if(exist(value)) {
             return function.apply(value);

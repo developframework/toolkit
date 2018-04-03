@@ -6,7 +6,7 @@ import java.nio.charset.Charset;
 /**
  * @author qiuzhenhao
  */
-public abstract class RawHttpRequestBody implements HttpRequestBody{
+public abstract class RawHttpRequestBody extends HttpRequestBody{
 
     @Override
     public void prepare(HttpURLConnection connection, HttpRequest httpRequest) {
@@ -14,4 +14,9 @@ public abstract class RawHttpRequestBody implements HttpRequestBody{
     }
 
     protected abstract String getContentType(Charset charset);
+
+    @Override
+    protected String serializeParameters() {
+        return null;
+    }
 }

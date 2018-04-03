@@ -8,7 +8,7 @@ import java.nio.charset.Charset;
 /**
  * @author qiuzhenhao
  */
-public class FormDataHttpRequestBody extends AbstractHttpRequestBody {
+public class FormDataHttpRequestBody extends HttpRequestBody {
 
     @Getter
     private String boundary;

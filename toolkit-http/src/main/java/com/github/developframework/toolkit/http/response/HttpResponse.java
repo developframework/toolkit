@@ -15,12 +15,12 @@ import java.util.Set;
  * @author qiuzhenhao
  */
 @Getter
-public class HttpResponse<BODY extends HttpResponseBody> {
+public class HttpResponse<BODY extends HttpResponseBodyProcessor> {
 
     @Setter
     private int httpStatus;
     @Setter
-    private BODY body;
+    private BODY bodyProcessor;
 
     private Set<HttpHeader> headers;
 

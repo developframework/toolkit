@@ -53,4 +53,12 @@ public class HttpRequest {
         String[] parameterStrArray = urlParameters.stream().map(parameter -> String.format("%s=%s", parameter.getParameterName(), parameter.getValue())).collect(Collectors.toList()).toArray(new String[urlParameters.size()]);
         return String.join("&", parameterStrArray);
     }
+
+    /**
+     * 判断是否存在Body
+     * @return
+     */
+    public boolean hasBody() {
+        return body != null;
+    }
 }

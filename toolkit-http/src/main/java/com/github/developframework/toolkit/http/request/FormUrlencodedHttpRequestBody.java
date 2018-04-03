@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 /**
  * @author qiuzhenhao
  */
-public class FormUrlencodedHttpRequestBody extends AbstractHttpRequestBody {
+public class FormUrlencodedHttpRequestBody extends HttpRequestBody {
 
     @Override
     public void prepare(HttpURLConnection connection, HttpRequest httpRequest) {

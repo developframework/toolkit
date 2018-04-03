@@ -1,9 +1,10 @@
 package com.github.developframework.toolkit.http;
 
+import com.github.developframework.toolkit.base.Toolkit;
 import com.github.developframework.toolkit.http.request.HttpRequest;
 import com.github.developframework.toolkit.http.request.HttpRequestBody;
 import com.github.developframework.toolkit.http.response.HttpResponse;
-import com.github.developframework.toolkit.http.response.HttpResponseBody;
+import com.github.developframework.toolkit.http.response.HttpResponseBodyProcessor;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
@@ -32,17 +33,52 @@ public final class ToolkitHttpClient {
         this.option = option;
     }
 
+
     /**
-     * 发送GET请求
+     * 发送请求
+     * @param httpMethod
      * @param request
      * @param responseBodyClass
      * @param <T>
      * @return
      * @throws IOException
      */
-    public <T extends HttpResponseBody> HttpResponse<T> get(HttpRequest request, Class<T> responseBodyClass) throws IOException {
+    public <T extends HttpResponseBodyProcessor> HttpResponse<T> request(HttpMethod httpMethod, HttpRequest request, Class<T> responseBodyClass) throws IOException {
+        switch (httpMethod) {
+            case GET: {
+                return this.get(request, responseBodyClass);
+            }
+            case POST: {
+                return this.post(request, responseBodyClass);
+            }
+            case PUT: {
+                return this.put(request, responseBodyClass);
+            }
+            case DELETE: {
+                return this.delete(request, responseBodyClass);
+            }
+            default:
+                return null;
+        }
+    }
+
+    /**
+     * 发送GET请求
+     *
+     * @param request
+     * @param responseBodyClass
+     * @param <T>
+     * @return
+     * @throws IOException
+     */
+    public <T extends HttpResponseBodyProcessor> HttpResponse<T> get(HttpRequest request, Class<T> responseBodyClass) throws IOException {
         URL url = new URL(request.getUrlFull());
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        HttpURLConnection connection;
+        if(Toolkit.exist(option.getProxy())) {
+            connection = (HttpURLConnection) url.openConnection(option.getProxy());
+        } else {
+            connection = (HttpURLConnection) url.openConnection();
+        }
         connectionSettings(connection, HttpMethod.GET, request, option);
         connection.setDoOutput(false);
         connection.setDoInput(true);
@@ -71,10 +107,15 @@ public final class ToolkitHttpClient {
      * @return
      * @throws IOException
      */
-    public <T extends HttpResponseBody> HttpResponse<T> post(HttpRequest request, Class<T> responseBodyClass) throws IOException {
+    public <T extends HttpResponseBodyProcessor> HttpResponse<T> post(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
         URL url = new URL(request.getUrlFull());
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        HttpURLConnection connection;
+        if(Toolkit.exist(option.getProxy())) {
+            connection = (HttpURLConnection) url.openConnection(option.getProxy());
+        } else {
+            connection = (HttpURLConnection) url.openConnection();
+        }
         connectionSettings(connection, HttpMethod.POST, request, option);
         connection.setDoOutput(true);
         connection.setDoInput(true);
@@ -103,16 +144,22 @@ public final class ToolkitHttpClient {
 
     /**
      * 发送PUT请求
+     *
      * @param request
      * @param responseBodyClass
      * @param <T>
      * @return
      * @throws IOException
      */
-    public <T extends HttpResponseBody> HttpResponse<T> put(HttpRequest request, Class<T> responseBodyClass) throws IOException {
+    public <T extends HttpResponseBodyProcessor> HttpResponse<T> put(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
         URL url = new URL(request.getUrlFull());
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        HttpURLConnection connection;
+        if(Toolkit.exist(option.getProxy())) {
+            connection = (HttpURLConnection) url.openConnection(option.getProxy());
+        } else {
+            connection = (HttpURLConnection) url.openConnection();
+        }
         connectionSettings(connection, HttpMethod.PUT, request, option);
         connection.setDoOutput(true);
         connection.setDoInput(true);
@@ -141,16 +188,22 @@ public final class ToolkitHttpClient {
 
     /**
      * 发送DELETE请求
+     *
      * @param request
      * @param responseBodyClass
      * @param <T>
      * @return
      * @throws IOException
      */
-    public <T extends HttpResponseBody> HttpResponse<T> delete(HttpRequest request, Class<T> responseBodyClass) throws IOException {
+    public <T extends HttpResponseBodyProcessor> HttpResponse<T> delete(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
         URL url = new URL(request.getUrlFull());
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        HttpURLConnection connection;
+        if(Toolkit.exist(option.getProxy())) {
+            connection = (HttpURLConnection) url.openConnection(option.getProxy());
+        } else {
+            connection = (HttpURLConnection) url.openConnection();
+        }
         connectionSettings(connection, HttpMethod.DELETE, request, option);
         connection.setDoOutput(true);
         connection.setDoInput(true);
@@ -179,6 +232,7 @@ public final class ToolkitHttpClient {
 
     /**
      * 设置请求头
+     *
      * @param connection
      * @param headers
      */
@@ -196,11 +250,12 @@ public final class ToolkitHttpClient {
         connection.setUseCaches(false);
     }
 
-    private <T extends HttpResponseBody> HttpResponse<T> generateHttpResponse(HttpURLConnection connection, Class<T> responseBodyClass) throws Exception {
+    private <T extends HttpResponseBodyProcessor> HttpResponse<T> generateHttpResponse(HttpURLConnection connection, Class<T> responseBodyProcessorClass) throws Exception {
         HttpResponse<T> response = new HttpResponse<>();
-        Constructor<T> constructor = responseBodyClass.getConstructor(HttpURLConnection.class);
-        T responseBody = constructor.newInstance(connection);
-        response.setBody(responseBody);
+        Constructor<T> constructor = responseBodyProcessorClass.getConstructor();
+        T responseBodyProcessor = constructor.newInstance();
+        responseBodyProcessor.parseBody(connection);
+        response.setBodyProcessor(responseBodyProcessor);
         response.setHttpStatus(connection.getResponseCode());
         response.parseHeaders(connection.getHeaderFields());
         return response;
