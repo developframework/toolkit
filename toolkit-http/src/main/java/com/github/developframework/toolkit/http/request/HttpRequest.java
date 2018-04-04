@@ -4,6 +4,8 @@ import com.github.developframework.toolkit.http.HttpHeader;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,7 +52,14 @@ public class HttpRequest {
      * @return
      */
     protected String serializeParameters() {
-        String[] parameterStrArray = urlParameters.stream().map(parameter -> String.format("%s=%s", parameter.getParameterName(), parameter.getValue())).collect(Collectors.toList()).toArray(new String[urlParameters.size()]);
+        String[] parameterStrArray = urlParameters.stream().map(parameter -> {
+            try {
+                return String.format("%s=%s", parameter.getParameterName(), URLEncoder.encode(parameter.getValue().toString(), charset.displayName()));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                return "";
+            }
+        }).collect(Collectors.toList()).toArray(new String[urlParameters.size()]);
         return String.join("&", parameterStrArray);
     }
 

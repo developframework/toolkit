@@ -24,11 +24,11 @@ public class FormDataHttpRequestBody extends HttpRequestBody {
 
     @Override
     public byte[] serializeBody(Charset charset) {
-        return serializeParameters().getBytes(charset);
+        return serializeParameters(charset).getBytes(charset);
     }
 
     @Override
-    protected String serializeParameters() {
+    protected String serializeParameters(Charset charset) {
         String data =  "Content-Type: multipart/form-data; boundary=" + boundary + "\r\n\r\n"+ boundary + "\r\nContent-Disposition: form-data; name=\"name\"\r\n\r\nxxxx\r\n" + boundary;
         System.out.println(data);
         return data;

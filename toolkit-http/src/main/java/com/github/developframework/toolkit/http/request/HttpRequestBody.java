@@ -25,7 +25,7 @@ public abstract class HttpRequestBody {
      * a=1&b=2格式
      * @return
      */
-    protected abstract String serializeParameters();
+    protected abstract String serializeParameters(Charset charset);
 
     public abstract void prepare(HttpURLConnection connection, HttpRequest httpRequest);
 

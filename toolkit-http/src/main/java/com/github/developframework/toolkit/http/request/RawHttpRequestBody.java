@@ -16,7 +16,7 @@ public abstract class RawHttpRequestBody extends HttpRequestBody{
     protected abstract String getContentType(Charset charset);
 
     @Override
-    protected String serializeParameters() {
+    protected String serializeParameters(Charset charset) {
         return null;
     }
 }
