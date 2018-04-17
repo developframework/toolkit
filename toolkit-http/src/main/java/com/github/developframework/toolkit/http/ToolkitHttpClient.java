@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.io.IOUtils;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
@@ -71,8 +72,8 @@ public final class ToolkitHttpClient {
      * @throws IOException
      */
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> get(HttpRequest request, Class<T> responseBodyClass) throws IOException {
-        URL url = new URL(request.getUrlFull());
-        HttpURLConnection connection = connectionSettings(url, HttpMethod.GET, request, option);
+
+        HttpURLConnection connection = connectionSettings(request.getUrlFull(), HttpMethod.GET, request, option);
         connection.setDoOutput(false);
         connection.setDoInput(true);
 
@@ -102,8 +103,7 @@ public final class ToolkitHttpClient {
      */
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> post(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
-        URL url = new URL(request.getUrlFull());
-        HttpURLConnection connection = connectionSettings(url, HttpMethod.POST, request, option);
+        HttpURLConnection connection = connectionSettings(request.getUrlFull(), HttpMethod.POST, request, option);
         connection.setDoOutput(true);
         connection.setDoInput(true);
 
@@ -140,8 +140,7 @@ public final class ToolkitHttpClient {
      */
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> put(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
-        URL url = new URL(request.getUrlFull());
-        HttpURLConnection connection = connectionSettings(url, HttpMethod.PUT, request, option);
+        HttpURLConnection connection = connectionSettings(request.getUrlFull(), HttpMethod.PUT, request, option);
         connection.setDoOutput(true);
         connection.setDoInput(true);
 
@@ -178,8 +177,7 @@ public final class ToolkitHttpClient {
      */
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> delete(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
-        URL url = new URL(request.getUrlFull());
-        HttpURLConnection connection = connectionSettings(url, HttpMethod.DELETE, request, option);
+        HttpURLConnection connection = connectionSettings(request.getUrlFull(), HttpMethod.DELETE, request, option);
         connection.setDoOutput(true);
         connection.setDoInput(true);
 
@@ -217,12 +215,25 @@ public final class ToolkitHttpClient {
         }
     }
 
-    private HttpURLConnection connectionSettings(URL url, HttpMethod method, HttpRequest request, Option option) throws IOException {
+    private HttpURLConnection connectionSettings(String urlStr, HttpMethod method, HttpRequest request, Option option) throws IOException {
+        boolean isHttp = urlStr.startsWith("http://");
+        boolean isHttps = urlStr.startsWith("https://");
+
+        if(!isHttp && !isHttps) {
+            throw new IllegalArgumentException("Url must start with \"http://\" or \"https://\"");
+        }
+
+        URL url = new URL(request.getUrlFull());
         HttpURLConnection connection;
         if(Toolkit.exist(option.getProxy())) {
             connection = (HttpURLConnection) url.openConnection(option.getProxy());
         } else {
             connection = (HttpURLConnection) url.openConnection();
+        }
+
+        // 设置ssl证书
+        if(isHttps) {
+            ((HttpsURLConnection) connection).setSSLSocketFactory(option.getSslContext().getSocketFactory());
         }
         connection.setRequestMethod(method.name());
         connection.setRequestProperty("charset", request.getCharset().displayName());
