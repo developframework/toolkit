@@ -14,7 +14,7 @@ import java.util.Properties;
  */
 public class JavaxMailSender extends MailSender {
 
-    private boolean debug = true;
+    private boolean debug = false;
 
     private Session session;
 
