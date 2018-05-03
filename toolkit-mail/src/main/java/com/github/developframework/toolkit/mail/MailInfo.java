@@ -1,7 +1,7 @@
 package com.github.developframework.toolkit.mail;
 
 
-import com.github.developframework.toolkit.base.NameValuePair;
+import com.github.developframework.toolkit.base.components.KeyValuePair;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +19,7 @@ import java.util.Set;
 @Getter
 public class MailInfo {
 
-    private Set<NameValuePair<String, String>> toSet = new HashSet<>();
+    private Set<KeyValuePair<String, String>> toSet = new HashSet<>();
 
     @Setter
     private String fromName;
@@ -42,7 +42,7 @@ public class MailInfo {
         message.setFrom(fromAddress);
         InternetAddress[] addresses = toSet.stream().map(pair -> {
             try {
-                return new InternetAddress(pair.getName(), pair.getValue(), charset);
+                return new InternetAddress(pair.getKey(), pair.getValue(), charset);
             } catch (UnsupportedEncodingException e) {
                 return null;
             }
@@ -55,6 +55,6 @@ public class MailInfo {
     }
 
     public void addTo(String to, String toName) {
-        toSet.add(new NameValuePair<>(to, toName));
+        toSet.add(new KeyValuePair<>(to, toName));
     }
 }

@@ -24,8 +24,8 @@ public class PagerArgumentResolver implements HandlerMethodArgumentResolver {
 
     public PagerArgumentResolver(Class<? extends Pager> pagerClass) {
         log.info("Application loaded PagerArgumentResolver.");
-        this.indexKey = "pi";
-        this.sizeKey = "ps";
+        this.indexKey = "index";
+        this.sizeKey = "size";
         this.pagerClass = pagerClass;
     }
 
@@ -38,7 +38,7 @@ public class PagerArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
-        return Pager.class.isAssignableFrom(methodParameter.getParameterType());
+        return pagerClass.isAssignableFrom(methodParameter.getParameterType());
     }
 
     @Override
