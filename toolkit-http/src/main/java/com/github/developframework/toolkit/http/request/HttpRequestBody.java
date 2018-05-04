@@ -22,8 +22,6 @@ public abstract class HttpRequestBody {
 
     /**
      * 序列化参数
-     * a=1&b=2格式
-     * @return
      */
     protected abstract String serializeParameters(Charset charset);
 

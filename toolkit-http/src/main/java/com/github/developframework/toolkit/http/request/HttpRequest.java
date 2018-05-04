@@ -48,7 +48,6 @@ public class HttpRequest {
 
     /**
      * 序列化参数
-     * a=1&b=2格式
      * @return
      */
     protected String serializeParameters() {
@@ -65,7 +64,6 @@ public class HttpRequest {
 
     /**
      * 判断是否存在Body
-     * @return
      */
     public boolean hasBody() {
         return body != null;

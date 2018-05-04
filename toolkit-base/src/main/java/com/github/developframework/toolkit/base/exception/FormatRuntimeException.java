@@ -1,4 +1,4 @@
-package com.github.developframework.toolkit.base;
+package com.github.developframework.toolkit.base.exception;
 
 /**
  * 带格式化的运行异常

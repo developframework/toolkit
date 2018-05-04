@@ -23,8 +23,6 @@ public class FormUrlencodedHttpRequestBody extends HttpRequestBody {
 
     /**
      * 序列化参数
-     * a=1&b=2格式
-     * @return
      */
     protected String serializeParameters(Charset charset) {
         String[] parameterStrArray = parameters.stream().map(parameter -> {

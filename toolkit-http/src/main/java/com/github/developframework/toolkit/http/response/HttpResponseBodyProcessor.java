@@ -32,25 +32,16 @@ public abstract class HttpResponseBodyProcessor<T, Y> {
 
     /**
      * 实现如何判断请求成功
-     * @param connection
-     * @return
-     * @throws IOException
      */
     protected abstract boolean checkSuccess(HttpURLConnection connection) throws IOException;
 
     /**
      * 实现如何解析请求成功时的Body
-     * @param connection
-     * @return
-     * @throws IOException
      */
     protected abstract T parseBodyContent(HttpURLConnection connection) throws IOException;
 
     /**
      * 实现请求失败时的处理
-     * @param connection
-     * @return
-     * @throws IOException
      */
     protected abstract Y error(HttpURLConnection connection) throws IOException;
 }

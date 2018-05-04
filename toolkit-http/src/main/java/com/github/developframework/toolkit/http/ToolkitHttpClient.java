@@ -36,12 +36,6 @@ public final class ToolkitHttpClient {
 
     /**
      * 发送请求
-     * @param httpMethod
-     * @param request
-     * @param responseBodyClass
-     * @param <T>
-     * @return
-     * @throws IOException
      */
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> request(HttpMethod httpMethod, HttpRequest request, Class<T> responseBodyClass) throws IOException {
         switch (httpMethod) {
@@ -64,12 +58,6 @@ public final class ToolkitHttpClient {
 
     /**
      * 发送GET请求
-     *
-     * @param request
-     * @param responseBodyClass
-     * @param <T>
-     * @return
-     * @throws IOException
      */
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> get(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
@@ -94,12 +82,6 @@ public final class ToolkitHttpClient {
 
     /**
      * 发送POST请求
-     *
-     * @param request
-     * @param responseBodyClass
-     * @param <T>
-     * @return
-     * @throws IOException
      */
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> post(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
@@ -131,12 +113,6 @@ public final class ToolkitHttpClient {
 
     /**
      * 发送PUT请求
-     *
-     * @param request
-     * @param responseBodyClass
-     * @param <T>
-     * @return
-     * @throws IOException
      */
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> put(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
@@ -168,12 +144,6 @@ public final class ToolkitHttpClient {
 
     /**
      * 发送DELETE请求
-     *
-     * @param request
-     * @param responseBodyClass
-     * @param <T>
-     * @return
-     * @throws IOException
      */
     public <T extends HttpResponseBodyProcessor> HttpResponse<T> delete(HttpRequest request, Class<T> responseBodyClass) throws IOException {
 
@@ -205,9 +175,6 @@ public final class ToolkitHttpClient {
 
     /**
      * 设置请求头
-     *
-     * @param connection
-     * @param headers
      */
     private void setRequestHeader(HttpURLConnection connection, Set<HttpHeader> headers) {
         for (HttpHeader httpRequestHeader : headers) {

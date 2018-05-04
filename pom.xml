@@ -10,7 +10,6 @@
     <version>0.1</version>
     <modules>
         <module>toolkit-base</module>
-        <module>toolkit-persistence-jpa</module>
         <module>toolkit-persistence-mybatis</module>
         <module>toolkit-http</module>
         <module>toolkit-persistence</module>
@@ -60,6 +59,7 @@
         <version.mybatis>3.4.6</version.mybatis>
         <version.commons-io>2.5</version.commons-io>
         <version.commons-lang3>3.7</version.commons-lang3>
+        <version.javax.mail>1.6.1</version.javax.mail>
     </properties>
 
     <dependencyManagement>
@@ -104,6 +104,11 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>${version.commons-lang3}</version>
             </dependency>
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>${version.javax.mail}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -121,8 +126,16 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.3.2</version>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -145,16 +158,8 @@
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>2.4</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>2.3.2</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

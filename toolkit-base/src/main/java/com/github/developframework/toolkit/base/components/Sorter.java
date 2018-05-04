@@ -1,7 +1,6 @@
 package com.github.developframework.toolkit.base.components;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,16 +13,17 @@ public class Sorter<T> {
 
     private Map<Integer, Collection<T>> itemBox = new ConcurrentHashMap<>();
 
-    @Setter
     private SortFunction<T> sortFunction;
     @Getter
     private int quantity;
 
-    public Sorter(int quantity) {
+    public Sorter(int quantity, SortFunction<T> sortFunction) {
+        Objects.requireNonNull(this.sortFunction, "sortFunction not null.");
         this.quantity = quantity;
-        for (int i = 0; i < quantity; i++) {
+        for (int i = 1; i <= quantity; i++) {
             itemBox.put(i, new LinkedList<>());
         }
+        this.sortFunction = sortFunction;
     }
 
     /**
@@ -35,7 +35,7 @@ public class Sorter<T> {
         if(itemBox.containsKey(index)) {
             itemBox.get(index).add(item);
         }else{
-            throw new IllegalArgumentException("index is not exist.");
+            throw new IllegalArgumentException("index is not exist: " + index);
         }
     }
 
@@ -44,6 +44,9 @@ public class Sorter<T> {
      * @param items
      */
     public void sort(Collection<T> items) {
+        if(sortFunction == null) {
+            throw new IllegalStateException("sortFunction undefined.");
+        }
         for (T item : items) {
             int index = sortFunction.sort(item);
             postItem(index, item);
