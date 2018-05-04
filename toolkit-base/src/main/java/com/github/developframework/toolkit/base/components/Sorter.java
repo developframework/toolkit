@@ -18,7 +18,7 @@ public class Sorter<T> {
     private int quantity;
 
     public Sorter(int quantity, SortFunction<T> sortFunction) {
-        Objects.requireNonNull(this.sortFunction, "sortFunction not null.");
+        Objects.requireNonNull(sortFunction, "sortFunction not null.");
         this.quantity = quantity;
         for (int i = 1; i <= quantity; i++) {
             itemBox.put(i, new LinkedList<>());

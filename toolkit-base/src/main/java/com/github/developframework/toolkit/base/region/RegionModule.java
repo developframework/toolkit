@@ -4,6 +4,7 @@ import com.github.developframework.toolkit.base.exception.ToolkitException;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.Map;
 
@@ -17,8 +18,10 @@ public class RegionModule {
     private Country country;
 
     public RegionModule() {
-        try(ObjectInputStream ois = new ObjectInputStream(RegionModule.class.getResourceAsStream("/region.dat"))) {
-
+        try(
+            InputStream is = RegionModule.class.getResourceAsStream("/region.dat");
+            ObjectInputStream ois = new ObjectInputStream(is)
+        ) {
             country = (Country) ois.readObject();
 
         } catch(IOException e) {

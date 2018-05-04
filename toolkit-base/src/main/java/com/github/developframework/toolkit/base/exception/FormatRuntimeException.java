@@ -13,7 +13,7 @@ public class FormatRuntimeException extends RuntimeException{
         super(message);
     }
 
-    public FormatRuntimeException(String format, Object args) {
+    public FormatRuntimeException(String format, Object... args) {
         super(String.format(format, args));
     }
 
@@ -21,7 +21,7 @@ public class FormatRuntimeException extends RuntimeException{
         super(message, cause);
     }
 
-    public FormatRuntimeException(Throwable cause, String format, Object args) {
+    public FormatRuntimeException(Throwable cause, String format, Object... args) {
         super(String.format(format, args), cause);
     }
 }
